@@ -1,14 +1,14 @@
-# ThreeJS trackBallControls
+# ThreeJS trackBallControls
 
 as a standalone and typescript compatible npm module.
 
-# Installation
+## Installation
 
 ```shell
 npm install --save three-trackball-ts
 ```
 
-# Usage
+## Usage
 
 ```js
 import * as THREE from 'three';
@@ -19,6 +19,6 @@ const controls = new TrackballControls(camera, renderer.domElement);
 
 ```
 
-# Credit
+## Credit
 
 All credit goes to [TrackballControls.js](https://github.com/mrdoob/three.js/blob/master/examples/js/controls/TrackballControls.js) contributors.
