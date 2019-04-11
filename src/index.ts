@@ -1,6 +1,9 @@
 import * as THREE from 'three';
 
 const STATE = { NONE: - 1, ROTATE: 0, ZOOM: 1, PAN: 2, TOUCH_ROTATE: 3, TOUCH_ZOOM_PAN: 4 };
+const CHANGE_EVENT = { type: 'change' };
+const START_EVENT = { type: 'start' };
+const END_EVENT = { type: 'end' };
 
 const EPS = 0.000001;
 
@@ -39,10 +42,6 @@ export class TrackballControls extends THREE.EventDispatcher {
 
   keys: number[];
   target: THREE.Vector3;
-
-  changeEvent: Event = new Event('change');
-  startEvent: Event = new Event('start');
-  endEvent: Event = new Event('end');
 
   private state: number;
   private prevState: number;
@@ -172,7 +171,7 @@ export class TrackballControls extends THREE.EventDispatcher {
       }
       document.addEventListener('mousemove', this.mousemove, false);
       document.addEventListener('mouseup', this.mouseup, false);
-      dispatchEvent(this.startEvent);
+      this.dispatchEvent(START_EVENT);
     }
 
     this.mousemove = (event: MouseEvent) => {
@@ -196,7 +195,7 @@ export class TrackballControls extends THREE.EventDispatcher {
       this.state = STATE.NONE;
       document.removeEventListener('mousemove', this.mousemove);
       document.removeEventListener('mouseup', this.mouseup);
-      dispatchEvent(this.endEvent);
+      this.dispatchEvent(END_EVENT);
     }
 
     this.mousewheel = (event: WheelEvent) => {
@@ -221,8 +220,8 @@ export class TrackballControls extends THREE.EventDispatcher {
           break;
   
       }
-      dispatchEvent(this.startEvent);
-      dispatchEvent(this.endEvent);
+      this.dispatchEvent(START_EVENT);
+      this.dispatchEvent(END_EVENT);
     }
 
     this.touchstart = (event: TouchEvent) => {
@@ -244,7 +243,7 @@ export class TrackballControls extends THREE.EventDispatcher {
               this.panEnd.copy(this.panStart);
               break;
       }
-      dispatchEvent(this.startEvent);
+      this.dispatchEvent(START_EVENT);
     }
 
     this.touchmove = (event: TouchEvent) => {
@@ -282,7 +281,7 @@ export class TrackballControls extends THREE.EventDispatcher {
               this.movePrev.copy(this.moveCurr);
               break;
       }
-      dispatchEvent(this.endEvent);
+      this.dispatchEvent(END_EVENT);
     }
 
     this.contextmenu = (event: MouseEvent) => {
@@ -297,8 +296,8 @@ export class TrackballControls extends THREE.EventDispatcher {
     this.domElement.addEventListener( 'touchend', this.touchend, false );
     this.domElement.addEventListener( 'touchmove', this.touchmove, false );
   
-    window.addEventListener( 'keydown', this.keydown, false );
-    window.addEventListener( 'keyup', this.keyup, false );
+    this.window.addEventListener( 'keydown', this.keydown, false );
+    this.window.addEventListener( 'keyup', this.keyup, false );
   
     this.handleResize();
   
@@ -328,8 +327,8 @@ export class TrackballControls extends THREE.EventDispatcher {
     const box = this.domElement.getBoundingClientRect();
     // adjustments come from similar code in the jquery offset() function
 		const d = this.domElement.ownerDocument.documentElement;
-    this.screen.left = box.left + window.pageXOffset - d.clientLeft;
-    this.screen.top = box.top + window.pageYOffset - d.clientTop;
+    this.screen.left = box.left + this.window.pageXOffset - d.clientLeft;
+    this.screen.top = box.top + this.window.pageYOffset - d.clientTop;
     this.screen.width = box.width;
     this.screen.height = box.height;
   }
@@ -470,7 +469,7 @@ export class TrackballControls extends THREE.EventDispatcher {
     this.checkDistances();
     this.object.lookAt(this.target);
     if (lastPosition.distanceToSquared(this.object.position) > EPS) {
-        dispatchEvent(this.changeEvent);
+        this.dispatchEvent(CHANGE_EVENT);
         lastPosition.copy(this.object.position);
     }
   }
@@ -483,7 +482,7 @@ export class TrackballControls extends THREE.EventDispatcher {
     this.object.up.copy(this.up0);
     this.eye.subVectors(this.object.position, this.target);
     this.object.lookAt(this.target);
-    dispatchEvent(this.changeEvent);
+    this.dispatchEvent(CHANGE_EVENT);
     lastPosition.copy(this.object.position);
   }
 

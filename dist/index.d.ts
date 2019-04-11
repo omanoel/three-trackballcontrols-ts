@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-
 /**
  * @author Eberhard Graether / http://egraether.com/
  * @author Mark Lundin 	/ http://mark-lundin.com
@@ -7,7 +6,6 @@ import * as THREE from 'three';
  * @author Luca Antiga 	/ http://lantiga.github.io
  * @author Olivier Manoel 	/ http://github.com/omanoel
  */
-
 export declare class TrackballControls extends THREE.EventDispatcher {
     object: THREE.Camera;
     domElement: HTMLElement;
@@ -26,10 +24,6 @@ export declare class TrackballControls extends THREE.EventDispatcher {
     maxDistance: number;
     keys: number[];
     target: THREE.Vector3;
-    changeEvent: Event;
-    startEvent: Event;
-    endEvent: Event;
-
     private state;
     private prevState;
     private eye;
@@ -45,7 +39,7 @@ export declare class TrackballControls extends THREE.EventDispatcher {
     private panEnd;
     private target0;
     private position0;
-    private up0; 
+    private up0;
     private keydown;
     private keyup;
     private mousedown;
@@ -56,15 +50,14 @@ export declare class TrackballControls extends THREE.EventDispatcher {
     private touchmove;
     private touchend;
     private contextmenu;
-
     constructor(object: THREE.Camera, domElement: HTMLElement, domWindow?: Window);
     dispose(): void;
     handleResize(): void;
-    getMouseOnScreen(): any;
-    getMouseOnCircle(): any;
-    rotateCamera(): any;
-    zoomCamera(): any;
-    panCamera(): any;
+    getMouseOnScreen: any;
+    getMouseOnCircle: any;
+    rotateCamera: () => void;
+    zoomCamera: () => void;
+    panCamera: () => void;
     checkDistances(): void;
     update(): void;
     reset(): void;

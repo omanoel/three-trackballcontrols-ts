@@ -1,7 +1,7 @@
 import * as mocha from 'mocha';
 import * as THREE from 'three';
 import { TrackballControls } from '../src';
-import {expect} from 'chai';
+import { expect } from 'chai';
 import * as jsdom from 'jsdom';
 
 describe('trackball controls', () => {
