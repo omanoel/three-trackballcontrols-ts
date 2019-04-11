@@ -1,4 +1,4 @@
-# ThreeJS trackBallControls
+# ThreeJS Trackball Controls
 
 as a standalone and typescript compatible npm module.
 

@@ -1,7 +1,7 @@
 {
   "name": "three-trackballcontrols-ts",
   "version": "0.1.0",
-  "description": "ThreeJS TrackBallControls as a standalone and typescript compatible npm module",
+  "description": "ThreeJS Trackball Controls as a standalone and typescript compatible npm module",
   "main": "dist",
   "scripts": {
     "preversion": "npm test && ./node_modules/typescript/bin/tsc -p tsconfig.json",
@@ -36,7 +36,7 @@
     "@types/three": "^0.103.0",
     "chai": "^3.5.0",
     "jsdom": "^9.9.1",
-    "mocha": "^3.2.0",
+    "mocha": "^6.1.2",
     "ts-node": "^2.0.0",
     "typescript": "^3.1.4"
   },
