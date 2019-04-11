@@ -1,0 +1,47 @@
+{
+  "name": "three-trackballcontrols-ts",
+  "version": "0.1.0",
+  "description": "ThreeJS TrackBallControls as a standalone and typescript compatible npm module",
+  "main": "dist",
+  "scripts": {
+    "preversion": "npm test && ./node_modules/typescript/bin/tsc -p tsconfig.json",
+    "test": "mocha --opts mocha.opts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omanoel/three-trackballcontrols-ts.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "keywords": [
+    "trackball",
+    "controls",
+    "threejs",
+    "three",
+    "js",
+    "camera",
+    "controller"
+  ],
+  "bugs": {
+    "url": "https://github.com/omanoel/three-trackballcontrols-ts/issues"
+  },
+  "homepage": "https://github.com/omanoel/three-trackballcontrols-ts#readme",
+  "peerDependencies": {
+    "three": "^0.103.0"
+  },
+  "devDependencies": {
+    "@types/core-js": "^0.9.35",
+    "@types/jsdom": "^2.0.29",
+    "@types/mocha": "^2.2.35",
+    "@types/three": "^0.103.0",
+    "chai": "^3.5.0",
+    "jsdom": "^9.9.1",
+    "mocha": "^3.2.0",
+    "ts-node": "^2.0.0",
+    "typescript": "^3.1.4"
+  },
+  "typings": "dist/index.d.ts",
+  "dependencies": {
+    "three": "^0.103.0"
+  }
+}
