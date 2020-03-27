@@ -1,6 +1,6 @@
 {
   "name": "three-trackballcontrols-ts",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "ThreeJS Trackball Controls as a standalone and typescript compatible npm module",
   "main": "dist",
   "scripts": {
