@@ -1,6 +1,6 @@
 {
   "name": "three-trackballcontrols-ts",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "ThreeJS Trackball Controls as a standalone and typescript compatible npm module",
   "main": "dist",
   "scripts": {
@@ -27,21 +27,21 @@
   },
   "homepage": "https://github.com/omanoel/three-trackballcontrols-ts#readme",
   "peerDependencies": {
-    "three": "^0.103.0"
+    "three": "^0.115.0"
   },
   "devDependencies": {
-    "@types/core-js": "^0.9.35",
-    "@types/jsdom": "^2.0.29",
-    "@types/mocha": "^2.2.35",
-    "@types/three": "^0.103.0",
-    "chai": "^3.5.0",
-    "jsdom": "^9.9.1",
-    "mocha": "^6.1.4",
-    "ts-node": "^8.3.0",
-    "typescript": "^3.5.3"
+    "@types/core-js": "^2.0.0",
+    "@types/jsdom": "^16.0.0",
+    "@types/mocha": "^7.0.0",
+    "@types/three": "^0.103.2",
+    "chai": "^4.0.0",
+    "jsdom": "^16.0.0",
+    "mocha": "^7.0.0",
+    "ts-node": "^8.8.1",
+    "typescript": "^3.8.3"
   },
   "typings": "dist/index.d.ts",
   "dependencies": {
-    "three": "^0.103.0"
+    "three": "^0.115.0"
   }
 }
