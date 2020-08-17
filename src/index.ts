@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-const STATE = { NONE: - 1, ROTATE: 0, ZOOM: 1, PAN: 2, TOUCH_ROTATE: 3, TOUCH_ZOOM_PAN: 4 };
+const STATE = { NONE: -1, ROTATE: 0, ZOOM: 1, PAN: 2, TOUCH_ROTATE: 3, TOUCH_ZOOM_PAN: 4 };
 const CHANGE_EVENT = { type: 'change' };
 const START_EVENT = { type: 'start' };
 const END_EVENT = { type: 'end' };
@@ -8,15 +8,7 @@ const END_EVENT = { type: 'end' };
 const EPS = 0.000001;
 
 const LAST_POSITION = new THREE.Vector3();
-const LAST_ZOOM = {value: 1};
-
-/**
- * @author Eberhard Graether / http://egraether.com/
- * @author Mark Lundin 	/ http://mark-lundin.com
- * @author Simone Manini / http://daron1337.github.io
- * @author Luca Antiga 	/ http://lantiga.github.io
- * @author Olivier Manoel 	/ http://github.com/omanoel
- */
+const LAST_ZOOM = { value: 1 };
 
 export class TrackballControls extends THREE.EventDispatcher {
   camera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
@@ -78,12 +70,13 @@ export class TrackballControls extends THREE.EventDispatcher {
   constructor(camera: THREE.PerspectiveCamera | THREE.OrthographicCamera, domElement: HTMLElement, domWindow?: Window) {
     super();
 
-    if (domElement === undefined) console.warn('THREE.TrackballControls: The second parameter "domElement" is now mandatory.');
+    if (domElement === undefined)
+      console.warn('THREE.TrackballControls: The second parameter "domElement" is now mandatory.');
 
     this.camera = camera;
 
     this.domElement = domElement;
-    this.window = (domWindow !== undefined) ? domWindow : window;
+    this.window = domWindow !== undefined ? domWindow : window;
 
     // Set to false to disable this control
     this.enabled = true;
@@ -151,16 +144,20 @@ export class TrackballControls extends THREE.EventDispatcher {
       } else if (event.keyCode === this.keys[STATE.PAN] && !this.noPan) {
         this._keyState = STATE.PAN;
       }
-    }
+    };
 
-    this.keyup = (event: KeyboardEvent) => {
-      if (this.enabled === false) { return; }
+    this.keyup = () => {
+      if (this.enabled === false) {
+        return;
+      }
       this._keyState = STATE.NONE;
       this.window.addEventListener('keydown', this.keydown, false);
-    }
+    };
 
     this.mousedown = (event: MouseEvent) => {
-      if (this.enabled === false) { return; }
+      if (this.enabled === false) {
+        return;
+      }
       event.preventDefault();
       event.stopPropagation();
       if (this._state === STATE.NONE) {
@@ -178,7 +175,7 @@ export class TrackballControls extends THREE.EventDispatcher {
             this._state = STATE.NONE;
         }
       }
-      const state = (this._keyState !== STATE.NONE) ? this._keyState : this._state;
+      const state = this._keyState !== STATE.NONE ? this._keyState : this._state;
 
       if (state === STATE.ROTATE && !this.noRotate) {
         this._moveCurr.copy(this.getMouseOnCircle(event.pageX, event.pageY));
@@ -193,13 +190,15 @@ export class TrackballControls extends THREE.EventDispatcher {
       document.addEventListener('mousemove', this.mousemove, false);
       document.addEventListener('mouseup', this.mouseup, false);
       this.dispatchEvent(START_EVENT);
-    }
+    };
 
     this.mousemove = (event: MouseEvent) => {
-      if (this.enabled === false) { return; }
+      if (this.enabled === false) {
+        return;
+      }
       event.preventDefault();
       event.stopPropagation();
-      const state = (this._keyState !== STATE.NONE) ? this._keyState : this._state;
+      const state = this._keyState !== STATE.NONE ? this._keyState : this._state;
       if (state === STATE.ROTATE && !this.noRotate) {
         this._movePrev.copy(this._moveCurr);
         this._moveCurr.copy(this.getMouseOnCircle(event.pageX, event.pageY));
@@ -208,25 +207,28 @@ export class TrackballControls extends THREE.EventDispatcher {
       } else if (state === STATE.PAN && !this.noPan) {
         this._panEnd.copy(this.getMouseOnScreen(event.pageX, event.pageY));
       }
-    }
+    };
 
     this.mouseup = (event: MouseEvent) => {
-      if (this.enabled === false) { return; }
+      if (this.enabled === false) {
+        return;
+      }
       event.preventDefault();
       event.stopPropagation();
       this._state = STATE.NONE;
       document.removeEventListener('mousemove', this.mousemove);
       document.removeEventListener('mouseup', this.mouseup);
       this.dispatchEvent(END_EVENT);
-    }
+    };
 
     this.mousewheel = (event: WheelEvent) => {
-      if (this.enabled === false) { return; }
+      if (this.enabled === false) {
+        return;
+      }
       if (this.noZoom === true) return;
       event.preventDefault();
       event.stopPropagation();
       switch (event.deltaMode) {
-
         case 2:
           // Zoom in pages
           this._zoomStart.y -= event.deltaY * 0.025;
@@ -241,14 +243,15 @@ export class TrackballControls extends THREE.EventDispatcher {
           // undefined, 0, assume pixels
           this._zoomStart.y -= event.deltaY * 0.00025;
           break;
-
       }
       this.dispatchEvent(START_EVENT);
       this.dispatchEvent(END_EVENT);
-    }
+    };
 
     this.touchstart = (event: TouchEvent) => {
-      if (this.enabled === false) { return; }
+      if (this.enabled === false) {
+        return;
+      }
       event.preventDefault();
       switch (event.touches.length) {
         case 1:
@@ -256,7 +259,8 @@ export class TrackballControls extends THREE.EventDispatcher {
           this._moveCurr.copy(this.getMouseOnCircle(event.touches[0].pageX, event.touches[0].pageY));
           this._movePrev.copy(this._moveCurr);
           break;
-        default: // 2 or more
+        default:
+          // 2 or more
           this._state = STATE.TOUCH_ZOOM_PAN;
           const dx = event.touches[0].pageX - event.touches[1].pageX;
           const dy = event.touches[0].pageY - event.touches[1].pageY;
@@ -268,10 +272,12 @@ export class TrackballControls extends THREE.EventDispatcher {
           break;
       }
       this.dispatchEvent(START_EVENT);
-    }
+    };
 
     this.touchmove = (event: TouchEvent) => {
-      if (this.enabled === false) { return; }
+      if (this.enabled === false) {
+        return;
+      }
       event.preventDefault();
       event.stopPropagation();
 
@@ -281,7 +287,8 @@ export class TrackballControls extends THREE.EventDispatcher {
           this._moveCurr.copy(this.getMouseOnCircle(event.touches[0].pageX, event.touches[0].pageY));
           break;
 
-        default: // 2 or more
+        default:
+          // 2 or more
           const dx = event.touches[0].pageX - event.touches[1].pageX;
           const dy = event.touches[0].pageY - event.touches[1].pageY;
           this._touchZoomDistanceEnd = Math.sqrt(dx * dx + dy * dy);
@@ -290,10 +297,12 @@ export class TrackballControls extends THREE.EventDispatcher {
           this._panEnd.copy(this.getMouseOnScreen(x, y));
           break;
       }
-    }
+    };
 
     this.touchend = (event: TouchEvent) => {
-      if (this.enabled === false) { return; }
+      if (this.enabled === false) {
+        return;
+      }
       switch (event.touches.length) {
         case 0:
           this._state = STATE.NONE;
@@ -306,12 +315,14 @@ export class TrackballControls extends THREE.EventDispatcher {
           break;
       }
       this.dispatchEvent(END_EVENT);
-    }
+    };
 
     this.contextmenu = (event: MouseEvent) => {
-      if (this.enabled === false) { return; }
+      if (this.enabled === false) {
+        return;
+      }
       event.preventDefault();
-    }
+    };
 
     this.domElement.addEventListener('contextmenu', this.contextmenu, false);
     this.domElement.addEventListener('mousedown', this.mousedown, false);
@@ -328,7 +339,6 @@ export class TrackballControls extends THREE.EventDispatcher {
 
     // force an update at start
     this.update();
-
   }
 
   dispose(): void {
@@ -360,19 +370,16 @@ export class TrackballControls extends THREE.EventDispatcher {
 
   getMouseOnScreen = (pageX: number, pageY: number) => {
     const vector = new THREE.Vector2();
-    return vector.set(
-      (pageX - this.screen.left) / this.screen.width,
-      (pageY - this.screen.top) / this.screen.height
-    );
-  }
+    return vector.set((pageX - this.screen.left) / this.screen.width, (pageY - this.screen.top) / this.screen.height);
+  };
 
   getMouseOnCircle = (pageX: number, pageY: number) => {
     const vector = new THREE.Vector2();
     return vector.set(
-      ((pageX - this.screen.width * 0.5 - this.screen.left) / (this.screen.width * 0.5)),
-      ((this.screen.height + 2 * (this.screen.top - pageY)) / this.screen.width)
+      (pageX - this.screen.width * 0.5 - this.screen.left) / (this.screen.width * 0.5),
+      (this.screen.height + 2 * (this.screen.top - pageY)) / this.screen.width
     );
-  }
+  };
 
   rotateCamera = () => {
     const axis: THREE.Vector3 = new THREE.Vector3();
@@ -408,50 +415,42 @@ export class TrackballControls extends THREE.EventDispatcher {
 
       this._lastAxis.copy(axis);
       this._lastAngle = angle;
-
     } else if (!this.staticMoving && this._lastAngle) {
-
       this._lastAngle *= Math.sqrt(1.0 - this.dynamicDampingFactor);
       this._eye.copy(this.camera.position).sub(this.target);
       quaternion.setFromAxisAngle(this._lastAxis, this._lastAngle);
       this._eye.applyQuaternion(quaternion);
       this.camera.up.applyQuaternion(quaternion);
-
     }
     this._movePrev.copy(this._moveCurr);
-
-  }
+  };
 
   zoomCamera = () => {
-    
     let factor = 0;
 
     if (this._state === STATE.TOUCH_ZOOM_PAN) {
-
       factor = this._touchZoomDistanceStart / this._touchZoomDistanceEnd;
       this._touchZoomDistanceStart = this._touchZoomDistanceEnd;
-      
-      if ( this.camera['isPerspectiveCamera'] ) {
+
+      if (this.camera['isPerspectiveCamera']) {
         this._eye.multiplyScalar(factor);
-      } else if ( this.camera['isOrthographicCamera'] ) {
+      } else if (this.camera['isOrthographicCamera']) {
         this.camera.zoom *= factor;
         this.camera.updateProjectionMatrix();
       } else {
-				console.warn( 'THREE.TrackballControls: Unsupported camera type' );
+        console.warn('THREE.TrackballControls: Unsupported camera type');
       }
-      
     } else {
-
       factor = 1.0 + (this._zoomEnd.y - this._zoomStart.y) * this.zoomSpeed;
 
       if (factor !== 1.0 && factor > 0.0) {
-        if ( this.camera['isPerspectiveCamera'] ) {
+        if (this.camera['isPerspectiveCamera']) {
           this._eye.multiplyScalar(factor);
-        } else if ( this.camera['isOrthographicCamera'] ) {
+        } else if (this.camera['isOrthographicCamera']) {
           this.camera.zoom /= factor;
           this.camera.updateProjectionMatrix();
         } else {
-          console.warn( 'THREE.TrackballControls: Unsupported camera type' );
+          console.warn('THREE.TrackballControls: Unsupported camera type');
         }
       }
 
@@ -460,9 +459,8 @@ export class TrackballControls extends THREE.EventDispatcher {
       } else {
         this._zoomStart.y += (this._zoomEnd.y - this._zoomStart.y) * this.dynamicDampingFactor;
       }
-
     }
-  }
+  };
 
   panCamera = () => {
     const mouseChange: THREE.Vector2 = new THREE.Vector2();
@@ -472,9 +470,15 @@ export class TrackballControls extends THREE.EventDispatcher {
     mouseChange.copy(this._panEnd).sub(this._panStart);
 
     if (mouseChange.lengthSq()) {
-      if ( this.camera['isOrthographicCamera'] ) {
-        const scale_x = ( (<THREE.OrthographicCamera>this.camera).right - (<THREE.OrthographicCamera>this.camera).left ) / this.camera.zoom / this.domElement.clientWidth;
-        const scale_y = ( (<THREE.OrthographicCamera>this.camera).top - (<THREE.OrthographicCamera>this.camera).bottom ) / this.camera.zoom / this.domElement.clientWidth;
+      if (this.camera['isOrthographicCamera']) {
+        const scale_x =
+          ((<THREE.OrthographicCamera>this.camera).right - (<THREE.OrthographicCamera>this.camera).left) /
+          this.camera.zoom /
+          this.domElement.clientWidth;
+        const scale_y =
+          ((<THREE.OrthographicCamera>this.camera).top - (<THREE.OrthographicCamera>this.camera).bottom) /
+          this.camera.zoom /
+          this.domElement.clientWidth;
         mouseChange.x *= scale_x;
         mouseChange.y *= scale_y;
       }
@@ -489,10 +493,12 @@ export class TrackballControls extends THREE.EventDispatcher {
       if (this.staticMoving) {
         this._panStart.copy(this._panEnd);
       } else {
-        this._panStart.add(mouseChange.subVectors(this._panEnd, this._panStart).multiplyScalar(this.dynamicDampingFactor));
+        this._panStart.add(
+          mouseChange.subVectors(this._panEnd, this._panStart).multiplyScalar(this.dynamicDampingFactor)
+        );
       }
     }
-  }
+  };
 
   checkDistances(): void {
     if (!this.noZoom || !this.noPan) {
@@ -519,21 +525,21 @@ export class TrackballControls extends THREE.EventDispatcher {
       this.panCamera();
     }
     this.camera.position.addVectors(this.target, this._eye);
-    if ( this.camera['isPerspectiveCamera'] ) {
+    if (this.camera['isPerspectiveCamera']) {
       this.checkDistances();
       this.camera.lookAt(this.target);
       if (LAST_POSITION.distanceToSquared(this.camera.position) > EPS) {
         this.dispatchEvent(CHANGE_EVENT);
         LAST_POSITION.copy(this.camera.position);
       }
-    } else if ( this.camera['isOrthographicCamera'] ) {
+    } else if (this.camera['isOrthographicCamera']) {
       this.camera.lookAt(this.target);
-      if ( LAST_POSITION.distanceToSquared( this.camera.position ) > EPS || LAST_ZOOM.value !== this.camera.zoom ) {
-				this.dispatchEvent( CHANGE_EVENT );
-				LAST_POSITION.copy( this.camera.position );
-				LAST_ZOOM.value = this.camera.zoom;
-			} else {
-        console.warn( 'THREE.TrackballControls: Unsupported camera type' );
+      if (LAST_POSITION.distanceToSquared(this.camera.position) > EPS || LAST_ZOOM.value !== this.camera.zoom) {
+        this.dispatchEvent(CHANGE_EVENT);
+        LAST_POSITION.copy(this.camera.position);
+        LAST_ZOOM.value = this.camera.zoom;
+      } else {
+        console.warn('THREE.TrackballControls: Unsupported camera type');
       }
     }
   }
@@ -551,5 +557,4 @@ export class TrackballControls extends THREE.EventDispatcher {
     LAST_POSITION.copy(this.camera.position);
     LAST_ZOOM.value = this.camera.zoom;
   }
-
 }

@@ -1,13 +1,6 @@
 import * as THREE from 'three';
-/**
- * @author Eberhard Graether / http://egraether.com/
- * @author Mark Lundin 	/ http://mark-lundin.com
- * @author Simone Manini / http://daron1337.github.io
- * @author Luca Antiga 	/ http://lantiga.github.io
- * @author Olivier Manoel 	/ http://github.com/omanoel
- */
 export declare class TrackballControls extends THREE.EventDispatcher {
-    object: THREE.Camera;
+    camera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
     domElement: HTMLElement;
     window: Window;
     enabled: boolean;
@@ -23,23 +16,25 @@ export declare class TrackballControls extends THREE.EventDispatcher {
     minDistance: number;
     maxDistance: number;
     keys: number[];
+    mouseButtons: any;
     target: THREE.Vector3;
-    private state;
-    private prevState;
-    private eye;
-    private movePrev;
-    private moveCurr;
-    private lastAxis;
-    private lastAngle;
-    private zoomStart;
-    private zoomEnd;
-    private touchZoomDistanceStart;
-    private touchZoomDistanceEnd;
-    private panStart;
-    private panEnd;
+    private _state;
+    private _keyState;
+    private _eye;
+    private _movePrev;
+    private _moveCurr;
+    private _lastAxis;
+    private _lastAngle;
+    private _zoomStart;
+    private _zoomEnd;
+    private _touchZoomDistanceStart;
+    private _touchZoomDistanceEnd;
+    private _panStart;
+    private _panEnd;
     private target0;
     private position0;
     private up0;
+    private zoom0;
     private keydown;
     private keyup;
     private mousedown;
@@ -50,11 +45,11 @@ export declare class TrackballControls extends THREE.EventDispatcher {
     private touchmove;
     private touchend;
     private contextmenu;
-    constructor(object: THREE.Camera, domElement: HTMLElement, domWindow?: Window);
+    constructor(camera: THREE.PerspectiveCamera | THREE.OrthographicCamera, domElement: HTMLElement, domWindow?: Window);
     dispose(): void;
     handleResize(): void;
-    getMouseOnScreen: any;
-    getMouseOnCircle: any;
+    getMouseOnScreen: (pageX: number, pageY: number) => THREE.Vector2;
+    getMouseOnCircle: (pageX: number, pageY: number) => THREE.Vector2;
     rotateCamera: () => void;
     zoomCamera: () => void;
     panCamera: () => void;
