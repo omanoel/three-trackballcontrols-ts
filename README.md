@@ -2,6 +2,15 @@
 
 as a standalone and typescript compatible npm module.
 
+## Non maintained since march 2021
+
+because already provided in v0.126.1 - use that instead
+
+```js
+import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
+
+```
+
 ## Installation
 
 ```shell
